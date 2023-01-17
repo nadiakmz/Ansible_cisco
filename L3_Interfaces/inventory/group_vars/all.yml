@@ -1,0 +1,3 @@
+ansible_user: "++USERNAME++"
+ansible_password: "++PASSWORD++"
+ansible_network_os: ios

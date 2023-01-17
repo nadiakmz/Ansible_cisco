@@ -1,0 +1,21 @@
+- name: Gather listed l3 interfaces with provided configurations
+  cisco.ios.ios_l3_interfaces:
+    state: gathered
+  register: fact_result
+
+- name: Create File
+  shell: 
+    - mkdir ./facts/fact.json
+
+- name: Config L3 Ethernet interfaces
+  shell: echo "{{ item.name }}  {{ item.ipv4[0].address }}" >>  ./facts/fact.json
+  ios_config:
+    src: "TEMPLATE.j2"
+    match: none
+    save_when: modified
+  register: output
+  when: 
+    - "'ipv4' in item"
+    - "'Vlan' not in item.name"
+  loop: "{{ fact_result.gathered }}"
+  ignore_errors: true

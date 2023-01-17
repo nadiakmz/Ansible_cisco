@@ -1,0 +1,13 @@
+---
+
+- name: "L3 Configuration"
+  hosts: switches-IP
+  become: true
+  gather_facts: false
+  connection: network_cli
+  collections:
+    - cisco.ios.ios_ntp_global
+  roles:
+    - role: L3_Interface
+  
+
